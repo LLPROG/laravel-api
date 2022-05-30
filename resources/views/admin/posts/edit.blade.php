@@ -30,6 +30,11 @@
                     <input type="text" class="form-control" id="title" name="title" value="{{  old('title', $post->title) }}">
                 </div>
 
+                {{-- IMAGE --}}
+                <div class="mb-3">
+                    <label for="post_image">Example file input</label>
+                    <input type="file" class="form-control-file" id="post_image" name="post_image">
+                </div>
 
                 {{-- SLUG --}}
                 <div class="mb-3">

@@ -32,7 +32,7 @@ class Post extends Model
     }
 
 
-    protected $fillable = ['title', 'content', 'slug', 'user_id', 'category_id'];
+    protected $fillable = ['title', 'content', 'slug', 'user_id', 'category_id', 'post_image'];
 
     // funzione di generazione dello slug
     static public function slugGenerator($originalString) {

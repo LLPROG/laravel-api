@@ -21,11 +21,14 @@
                     {{ $post->title }}
                 </h1>
                 <p class="author">
-                    Post by: {{ $post->user->name }} - {{ $post->user->userInfo->phone_number }}
+                    Post by: {{ $post->user->name }}
                 </p>
+
                 <p class="category">
                     {{ $post->category->name }}
                 </p>
+
+                <img  src="{{ asset('storage/' . $post->post_image) }}" alt="{{ $post->title }}" class="w-50">
 
                 @if ($post->tags->all())
                     <p class="tags">

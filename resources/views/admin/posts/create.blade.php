@@ -19,7 +19,7 @@
             @endif
 
             {{-- form for create a new post - route ti store --}}
-            <form method="POST" action="{{ route('admin.posts.store') }}">
+            <form method="POST" enctype="multipart/form-data" action="{{ route('admin.posts.store') }}">
 
                 {{-- token for authorization --}}
                 @csrf
@@ -42,6 +42,12 @@
                     {{-- __() => funzione per rendere traducibili la parta visibile --}}
                     <label for="title" class="form-label">{{__('Title')}}</label>
                     <input type="text" class="form-control" id="title" name="title" value="{{  old('title') }}">
+                </div>
+
+                {{-- IMAGE --}}
+                <div class="mb-3">
+                    <label for="post_image">Example file input</label>
+                    <input type="file" class="form-control-file" id="post_image" name="post_image">
                 </div>
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\Tag;
@@ -91,14 +92,22 @@ class PostController extends Controller
         //validazione
         $request->validate($this->validator(null));
 
-        $formData = $request->all() + [
-            'user_id' => Auth::user()->id
-        ];
+        $data = $request->all();
 
-        preg_match_all('#([^\s]+)', $formData['content'], $tags_from_content);
+        $img_path = Storage::put('uploads', $data['post_image']);
+
+        $formData = [
+            'user_id' => Auth::user()->id,
+            'post_image'  => $img_path
+        ] + $data;
+
+
+        preg_match_all('/#(\S*)\b/', $formData['content'], $tags_from_content);
 
         $tagIds = [];
+
         foreach ($tags_from_content[1] as $tag) {
+
             Tag::create([
                 'name'  => $tag,
                 'slug'  => Str::slug($tag)
@@ -112,7 +121,6 @@ class PostController extends Controller
         $post = Post::create($formData);
 
         $post->tags()->attach($formData['tags']);
-
 
         return redirect()->route('admin.posts.show', $post->slug);
     }

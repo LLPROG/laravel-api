@@ -21,11 +21,9 @@
                             Post By:
                         </p>
 
-                        <div class="link-cont text-center">
-                            <a href="">
-                                Read more
-                            </a>
-                        </div>
+                        <router-link :to="{name: 'blogShow', params: {slug: post.slug}}" class="btn btn-primary mb-auto">
+                            Read more
+                        </router-link>
                     </div>
 
                 </div>
@@ -57,7 +55,7 @@
 
 <script>
 export default {
-    name: 'CardContainer',
+    name: 'BlogIndex',
     data() {
         return {
             posts: [],
@@ -83,7 +81,7 @@ export default {
                 this.currentPageNumber = response.data.response.current_page;
 
             })
-        }
+        },
     },
     created () {
         this.getData(this.path)
