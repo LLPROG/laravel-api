@@ -151,18 +151,33 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post) {
 
-        if (Auth::user()->id !== $post->user_id) abort(403);
+        if (Auth::user()->id === $post->user_id) {
 
-        $request->validate($this->validator($post->id));
 
-        // prendiamo i nuovi valori
-        $newPostData = $request->all();
+            $request->validate($this->validator($post->id));
 
-        $post->update($newPostData);
+            $formData = $request->all();
 
-        $post->tags()->sync($newPostData['tags']);
+            if (array_key_exists('post_image', $formData)) {
+                Storage::delete($post->post_image);
 
-        return redirect()->route('admin.posts.show', $post->slug);
+                // fino a qua non da errore
+                $img_path = Storage::put('uploads', $formData['post_image']);
+
+                // qua da errore
+
+                $data = [
+                    'post_image'  => $img_path
+                ] + $formData;
+            }
+
+            // prendiamo i nuovi valori
+            $post->update($data);
+
+            $post->tags()->sync($formData['tags']);
+
+            return redirect()->route('admin.posts.show', $post->slug);
+        } abourt(404);
     }
 
     public function destroy(Post $post) {
